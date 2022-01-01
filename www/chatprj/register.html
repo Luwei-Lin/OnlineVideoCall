@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    <div align="center">
+        <div style="height: 100px;"></div>
+        <h1>Welcome to the register page!</h1>
+        <table>
+            <tr>
+                <td align="right"><label>Username:</label></td>
+                <td><input id="username"></td>
+            </tr>
+            <tr>
+                <td align="right"><label>Password:</label></td>
+                <td><input id="passpwd" type="password"></td>
+            </tr>
+            <tr>
+                <td align="right"><label>Confirm Password:</label></td>
+                <td><input id="ppasspwd" type="password"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td align="right">
+                    <button id="return" style="width: 60px;font-size: 16px">Return</button>
+                    <button id="register" style="width: 75px;font-size: 16px">Register</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="./js/socket.io.js"></script>
+    <script src="./js/register.js"></script>
+</body>
+</html>

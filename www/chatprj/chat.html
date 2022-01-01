@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Room</title>
+</head>
+<body>
+    <div align="center">
+        <h1 id="welcome"></h1>
+        <table>
+            <tr>
+                <td>
+                    <label>Current Position:</label>
+                    <label>Clients Room</label>
+                    <button id="exit">Exit</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="msgList" rows="10" style="width: 500px;" disabled="true"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input id="msg" style="width: 75%;"/>
+                    <button id="send" style="width: 20%;">Send</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="./js/socket.io.js"></script>
+    <script src="./js/chat.js"></script>
+</body>
+</html>
