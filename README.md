@@ -1,4 +1,4 @@
-# OnlineVideoCall
+# OnlineVideoCall Full-Stack Dev
 Online Video Call Website
 1. Register domain name 
 2. Set SSL and authorize the domain
@@ -12,4 +12,24 @@ Day2
     a. md5 encrypt password
     b. name id should be unique (primary key)
 4. socket.io (npm install socket.io@2.0.3)
+Day4
+1. text-based chat room design and deployement 
+Day5
+1. 1 to 1 Video Room Design
+Day6
+1. ICE Structure
+2. RTC Peer Connection
+    pc=new RTCPeerConnection([config])
+    a. media coordination(negotiation)
+                                        addIceCandidate
+        setLocalDescription             setRemoteDescription
+        offer  --->                     ---> offer
+    Amy             Signaling Channel               Bob
+        answer <---                     <--- Answer
+        setRemoteDescription            setLocalDescription
+        addIceCandidate
+    b. stream and track addition and prohibition
+    c. transition relative functions
+    d. statistics
+3. candiate, stream, iceServers, state(4types)
 
