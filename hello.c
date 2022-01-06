@@ -10,6 +10,5 @@ int main(){
     printf("a = %d, b = %d\n", a, b);
     swap(&a, &b);
     printf("after swapping...\na = %d, b = %d\n", a, b);
-    printf("hello world\n");
 }
 
