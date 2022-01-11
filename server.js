@@ -1,5 +1,5 @@
 //server end
-"use strict"
+"use strict";
 
 var http = require("http");
 var https = require("https");
@@ -110,7 +110,39 @@ io.sockets.on("connection",(socket)=>{
       socket.emit("cexited");
       socket.to(room).emit("cotherexited",uname);
    });
-    //1v1 video call room
+   //1v1 video call room, (pre suffix 'v')
+    socket.on("vjoin",(room,uname)=>{
+
+        logger.info("vjoin", room, uname);
+
+        socket.join(room);
+
+        var myRoom = io.sockets.adapter.rooms[room];
+        var users = Object.keys(myRoom.sockets).length;
+        if(users>2){
+            socket.leave(room);
+            socket.emit("vfull",room);
+        }else{
+            socket.emit("vjoined",room);
+            if(users>1){
+                socket.to(room).emit("votherjoined",room,uname);
+            }
+        }
+        socket.on("vdata",(room,data)=>{
+            socket.to(room).emit("vgetdata",room, data);
+            logger.info("vdata",room,data);
+        });
+    });
+
+    socket.on("vexit",(room,uname)=>{
+        var myRoom = io.sockets.adapter.rooms[room];
+        var users = Object.keys(myRoom.sockets).length;
+        socket.leave(room);
+        logger.info("vexit,users="+users-1);
+        socket.emit("vexited", room);
+        socket.to(room).emit("votherexited",room,uname);
+    });
+
 });
 
 logger.info("Web service is ON!")
@@ -155,8 +187,9 @@ db.serialize(()=>{
             handleErr(e)
         else{
             logger.info("Current Clients: "+rows.length);
-            /*
             logger.info(rows);
+            /*
+
             logger.info(rows.length);
             logger.info(rows[0]);
             logger.info(rows[1]);

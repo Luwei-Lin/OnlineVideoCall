@@ -12,6 +12,7 @@ var txtMsgList = document.querySelector("textarea#msgList");
 var iptMsg = document.querySelector("input#msg");
 var btnSend = document.querySelector("button#send");
 var btnExit = document.querySelector("button#exit");
+var btnVideoRoom = document.querySelector("button#videoRoom");
 
 var room = "defaultRoom";
 var socket = null;
@@ -59,5 +60,10 @@ function exit(){
         history.back();
     });
 }
+
+function gotoVideoRoom(){
+    window.location.href = "videoRoom.html?uname="+uname;
+}
 btnSend.onclick = sendMsg;
 btnExit.onclick = exit;
+btnVideoRoom.onclick = gotoVideoRoom;
