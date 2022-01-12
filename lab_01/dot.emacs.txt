@@ -1,0 +1,287 @@
+;; this is a sample ~/.emacs file which you can use
+;; as a starting point for customizing emacs
+
+;; to learn more about what's going on here
+;; I suggest browsing emacs's help system and to
+;; use Google to find emacs documentation
+
+;; tip: use  ctrl-h f xxx to find out what function
+;; xxx does
+
+;; comments start with ;
+
+;; uncomment (delete ;;) to switch on feature
+
+(setq load-path (append load-path '("~/.emacs.d/lisp")))
+
+(setq inhibit-splash-screen t) ; no splash screen
+
+; edit multiple files; use shift+ctrl left/right to navigate
+(require 'tabbar)   ; for this to work tabbar.el must be present in ~/.emacs.d/lisp
+(tabbar-mode) 
+
+; tabbar faces
+
+ (set-face-attribute
+   'tabbar-default-face nil
+   :background "gray60")
+  (set-face-attribute
+   'tabbar-unselected-face nil
+   :background "black"
+   :foreground "white"
+   :box nil)
+  (set-face-attribute
+   'tabbar-selected-face nil
+   :background "black"
+   :foreground "green"
+   :box nil)
+  (set-face-attribute
+   'tabbar-button-face nil
+   :box '(:line-width 1 :color "gray72" :style released-button))
+  (set-face-attribute
+   'tabbar-separator-face nil
+   :height 0.7)
+
+; define tabs categories
+
+(defun tabbar-buffer-groups (buffer)
+  "Return the list of group names BUFFER belongs to.
+Return only one group for each buffer."
+  (with-current-buffer (get-buffer buffer)
+    (cond
+     ((or (get-buffer-process (current-buffer))
+          (memq major-mode
+                '(comint-mode compilation-mode)))
+      '("Main")
+      )
+     ((member (buffer-name)
+              '("*scratch*"))
+      '("Misc")
+      )
+     ((member (buffer-name)
+              '("*Messages*"))
+      '("Misc")
+      )
+     ((member (buffer-name)
+              '("*Completions*"))
+      '("Misc")
+      )
+     ((member (buffer-name)
+              '("*Ediff Registry*"))
+      '("Misc")
+      )
+     (t '("Main"))
+)))
+
+(global-set-key [(control shift left)]  'tabbar-backward)
+(global-set-key [(control shift right)] 'tabbar-forward)
+
+;; a font entry in .Xdefaults improves startup time considerably!
+
+;; put VM into the Tools menu
+;;(define-key global-map [menu-bar tools VM] '("Mail:VM" . vm))
+
+;; put speedbar into the Tools menu
+;; (define-key global-map [menu-bar tools SpeedBar] '("SpeedBar" . speedbar))
+
+;; file name completion in compile input line
+;; (require 'comint)
+;; (define-key minibuffer-local-map [tab] 'comint-dynamic-complete)
+
+
+(display-time)
+(setq line-number-mode t)
+(setq standard-indent 2)
+(setq c-basic-offset 2)
+(setq c-default-style "linux" c-basic-offset 2)
+
+;;(setq transient-mark-mode t)
+(setq text-mode-hook 'turn-on-auto-fill)
+(setq make-backup-files t)
+(put 'eval-expression 'disabled nil)
+
+;; switch into special mode depending on filename
+
+(setq auto-mode-alist (mapcar 'purecopy
+                              '(("\\.c$"     . c++-mode)
+                                ("\\.h$"     . c++-mode)
+                                ("\\.cpp$"   . c++-mode)
+                                ("\\.cs$"    . c++-mode)
+                                ("\\.java$"  . c++-mode)
+                                ("\\.cpp$"   . c++-mode)
+                                ("\\.cc$"    . c++-mode)
+                                ("\\.mc$"    . c++-mode)
+                                ("\\.H$"     . c++-mode)
+                                ("\\.tex$"   . tex-mode)
+                                ("\\.txi$"   . Texinfo-mode)
+                                ("\\.e$"     . eiffel-mode)
+                                ("\\.el$"    . emacs-lisp-mode)
+                                ("makefile$" . makefile-mode)
+                                ("Makefile$" . makefile-mode)
+                                ("\\.a$"     . c++-mode))))
+(require 'font-lock)
+
+(defvar cursor-map-2 (make-keymap) "for ESC-[")
+(fset 'Cursor-Map-2 cursor-map-2)
+(define-key esc-map "[" 'Cursor-Map-2)
+ 
+(define-key esc-map "[A" 'previous-line)
+(define-key esc-map "[B" 'next-line)
+(define-key esc-map "[C" 'forward-char)
+(define-key esc-map "[D" 'backward-char)
+(define-key esc-map "[H" 'beginning-of-line)
+(define-key esc-map "[Y" 'end-of-line)
+(define-key esc-map "[5^" 'scroll-down)
+(define-key esc-map "[6^" 'scroll-up)
+(define-key esc-map "[[A" 'help-for-help)
+(define-key esc-map "[[B" 'byte-compile-file)
+(define-key esc-map "[[C" 'isearch-forward)
+(define-key esc-map "[[D" 'query-replace-regexp)
+(define-key esc-map "[[E" 'eval-defun)
+(define-key esc-map "[[F" 'eval-current-buffer)
+(define-key esc-map "[[G" 'buffer-menu)
+(define-key esc-map "[[H" 'global-set-key)
+(define-key esc-map "[[I" 'save-buffer)
+(define-key esc-map "[[J" 'save-buffers-kill-emacs)
+(define-key esc-map "[2^" 'set-mark-command)
+(define-key esc-map "[3^" 'delete-char)
+
+;; shift arrows
+
+(define-key function-key-map "\e[E" '[S-up])
+(define-key function-key-map "\e[F" '[S-down])
+(define-key function-key-map "\e[G" '[S-right])
+(define-key function-key-map "\e[H" '[S-left])
+
+;; control arrows:
+
+(define-key function-key-map "\e[I" '[C-up])
+(define-key function-key-map "\e[J" '[C-down])
+(define-key function-key-map "\e[K" '[C-right])
+(define-key function-key-map "\e[L" '[C-left])
+
+;; shift tab:
+
+(define-key function-key-map "\e[T" '[S-tab])
+
+(global-set-key [f12] "\^A\^K\^K" )            ; delete-line
+(global-set-key [f4] 'advertised-undo)         ; Undo
+;;(global-set-key [f2] 'yank)                   ; Paste
+;;(global-set-key [f1] 'kill-region)            ; Cut
+(global-set-key "\C-z" nil)
+(global-set-key "\C-zl" 'goto-line)            ; goto-line
+
+(global-set-key [(control right)] 'end-of-line)
+(global-set-key [(control left)]  'beginning-of-line)
+(global-set-key [(control up)]   'scroll-down)
+(global-set-key [(control down)] 'scroll-up)
+;;(global-set-key [(control up)]    'beginning-of-buffer)
+;;(global-set-key [(control down)]  'end-of-buffer)
+
+(global-set-key [(shift right)] 'forward-word)
+(global-set-key [(shift left)]  'backward-word)
+;; doesn't work in gnome-terminals !@#$@# => made ctrl-up/down scroll
+(global-set-key [(shift up)]   'scroll-down)
+(global-set-key [(shift down)] 'scroll-up)
+
+(global-set-key [delete]    'delete-char)
+(global-set-key [kp-delete] 'delete-char)
+(global-set-key [backspace] 'delete-backward-char)
+(global-set-key [(control button1)] 'popup-buffer-menu)
+(global-set-key [button3] 'kill-region)
+
+;; compile within emacs: ctrl-z c
+(global-set-key "\C-zc" 'compile)
+;; page down key => jump to next error location
+(global-set-key [next] 'next-error)  
+(global-set-key [delete] 'delete-char)
+
+(define-key global-map [backspace] 'delete-backward-char)
+
+(define-key global-map [(control button1)] 'popup-buffer-menu)
+(define-key global-map [button3] 'kill-region)
+(define-key global-map [delete] 'delete-char)
+
+(setq delete-key-deletes-forward "true")
+
+;; populate the compile history; use up/down to navigate
+(setq compile-history '("make"))  
+;; this is the current compile command
+(setq compile-command "g++ -Wall -Wextra -O ")
+
+(define-key global-map "\C-zc" 'compile) ;; compile
+
+(put 'upcase-region 'disabled nil)
+
+;; c and tex mode 
+
+(defun my-c-mode-common-hook ()
+
+   (setq c-basic-offset 2)
+   (c-set-offset 'member-init-intro '+)
+   (c-toggle-hungry-state 1)
+   (define-key c-mode-base-map "\C-m" 'newline-and-indent)
+   (setq-default indent-tabs-mode nil);     # put this in your .emacs file 
+
+   ;; auto block indentation, very handy! ctrl-x t
+   (define-key c++-mode-map "\C-xt" 'c-indent-defun)
+   (define-key c-mode-map "\C-xt" 'c-indent-defun)
+   (define-key java-mode-map "\C-xt" 'c-indent-defun)
+)
+
+;; latex bindings
+
+(defun my-tex-mode-hook ()
+  (setq compile-command "latex main.tex")
+  (global-set-key [f1] "\\bs\\bs\\bs\\no")      
+  (global-set-key [f2] "$$  $$")
+  (global-set-key [f3] "\\begin\{itemize\}\n\\item\n\\end\{itemize\}")
+)
+
+;; tex
+
+(add-hook 'tex-mode-hook 'my-tex-mode-hook)
+
+;; C, C++, Java ...
+
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+;; Java
+
+(defun my-java-mode-hook ()
+  (define-key java-mode-map "\C-zc" 'jde-build)
+)
+
+(add-hook 'java-mode-hook 'my-java-mode-hook)
+
+;; Use "y or n" answers instead of full words "yes or no"
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; -------------------
+;; Everything in UTF-8
+;; -------------------
+(prefer-coding-system                   'utf-8)
+(set-language-environment               'utf-8)
+(set-default-coding-systems             'utf-8)
+(setq file-name-coding-system           'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+;;(setq coding-system-for-write           'utf-8)   CORRUPTS VM BINARY FILE SAVE
+(set-keyboard-coding-system             'utf-8)
+(set-terminal-coding-system             'utf-8)
+(set-clipboard-coding-system            'utf-8)
+(set-selection-coding-system            'utf-8)
+(setq default-process-coding-system '(utf-8 . utf-8))
+;;(add-to-list 'auto-coding-alist '("." . utf-8))   CORRUPTS VM BINARY FILE SAVE
+
+(custom-set-variables
+ '(case-fold-search t)
+ '(global-font-lock-mode t nil (font-lock))
+ '(mouse-wheel-mode t nil (mwheel))
+ '(scroll-bar-mode (quote right))
+ '(show-paren-mode t nil (paren))
+ '(tool-bar-mode nil nil (tool-bar))
+ '(transient-mark-mode t))
+
+;; cursor colour
+(custom-set-faces
+'(cursor ((t (:background "tomato")))))

@@ -1,0 +1,106 @@
+# this is a sample .bashrc file 
+# 
+# If bash is not your default shell, this file is not
+# of much help. I prefer bash over tcsh.
+# If you want bash as default shell let the system admins know -
+# they can change the shell.
+#
+# I suggest to append this file to an existing ~/.bashrc file and to
+# tailor it to your needs (comment/uncomment lines):
+#   emacs ~/.bashrc, go to the end of the file and issue ctrl-x i dot.bash
+
+
+# source the standard bashrc
+# DON'T TOUCH THIS LINE
+source /usr/local/rcfiles/Bashrc.global
+
+# default file permissions (-rw-r--r--)
+#umask 022
+
+if [ -z "$PS1" ]
+then
+
+  # non-interactive shell
+
+  export interactive=1
+
+else
+
+  # interactive shell
+
+  export interactive=0
+
+  # del key
+  # bind '"\e[3~":delete-char'
+
+  # command line prompt
+  export PS1="\h[\W]:"
+fi
+
+# don't create core file
+ulimit -c 0  
+
+# adjust 
+
+# where to look for executables
+export PATH=.:$PATH
+
+# where to look for man pages
+# export  MANPATH=...
+
+# where to look for libraries
+# export LD_LIBRARY_PATH=
+
+# other stuff
+
+export LS_COLORS=":no=00:fi=00:di=0;31:ln=0;34:pi=40;33:so=0;35:bd=40;33;0:cd=40;33;0:ex=00;35"
+export ARCH=`arch`
+export EDITOR=emacs
+export LESSCHARSET=latin1
+export LESS="-Qei -m"
+export PAGER="less -s"
+export MORE='-c'
+
+# used in ug/toug/fromug below
+export UGUSER=`whoami`
+
+# aliases (comment the ones you don't want to use)
+
+function sb() { source ~/.bashrc; }
+
+function pwd()   { echo $PWD; }
+		  
+function ls()   { /bin/ls --color=auto "$@"; }
+function ll()   { ls -l "$@"; }
+function lt()   { ls -lrt "$@"; }
+function l()    { ls "$@"; }
+
+function h()    { history "$@" | more; }
+	         
+function f()    { find . -name "$*" -print; }
+	         
+function more() { less "$@"; } 
+function mo()   { less "$@"; } 
+
+function ppp()  { rm -f *% *~ .*% .*~ *.ii; }  # remove temporary files
+	
+function ed()    { emacs -nw "$@"; }
+function x()     { exit; }
+function q()     { exit; }
+function quit()  { exit; }
+
+# connect to ug01
+function ug()     { ssh $UGUSER@ug01.cs.ualberta.ca; }
+
+# send file to ug01
+function toug()   { scp "$@" $UGUSER@ug01.cs.ualberta.ca:; }
+
+# receive file from ug01
+function fromug() { scp $UGUSER@ug01.cs.ualberta.ca:"$@" . ; }
+	
+# alternative way to create shortcuts
+# comment out if the confirmation questions annoy you
+# but remember: deleted or overwritten files are gone for good!
+alias mv="mv -i"
+alias cp="cp -i"
+alias rm="rm -i"

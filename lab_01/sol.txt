@@ -1,0 +1,23 @@
+2. Yes, the error is highlighted in the emacs editor when I pressed PGDOWN, the complier showed is like "hello.c:5:3: error: ‘df’ was not declared in this scope". It also suggested the line 5 has error. 
+3. #include <stdio.h>
+int main()        {
+  printf("hello world\n");
+  return 0;
+}
+4. Not Successful; I can split the windows by Ctl+x 2 but the C+S+left is not working for switching tabs. 'Ctrl-x o' functions well to switch the windows.
+5. Works
+6. Works
+7. If I want to get rid of all those files, I have to use wildcard '*'
+	Command: rm Foo* 
+8. (global-set-key [(control z f)] "for(int i=0;i<n;++i)")
+9.ug11[~]:wc -l hello.c
+	7 hello.c
+10. 
+ug11[~]:head -2 hello.c
+#include <stdio.h>
+int main()        {
+ug11[~]:tail -2 hello.c
+  return 0;
+}
+
+
