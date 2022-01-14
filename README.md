@@ -1,4 +1,5 @@
-# OnlineVideoCall Full-Stack Dev
+# OnlineVideoCall Full-Stack 
+It is based on WebRTC frame to make online text chat and video chat possible.
 Online Video Call Website
 1. Register domain name 
 2. Set SSL and authorize the domain
